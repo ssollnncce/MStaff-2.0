@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  laravel:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: laravel_container
+    restart: unless-stopped
+    volumes:
+      - ./backend:/var/www/html
+    depends_on:
+      - db
+    networks:
+      - staff_project
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./backend:/var/www/html
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - laravel
+    networks:
+      - staff_project
+
+  db:
+    image: mysql:8.0
+    container_name: mysql
+    restart: unless-stopped
+    env_files:
+      -./Docker/mysql/mysql.env
+    ports:
+      - "3307:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - staff_project
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    platform: linux/amd64
+    container_name: phpmyadmin
+    restart: unless-stopped
+    env_files:
+      - ./Docker/phpmyadmin/phpmyadmin.env
+    ports:
+      - "8080:80"
+    networks:
+      - staff_project
+
+  frontend:
+    image: node:20
+    container_name: vue-frontend
+    working_dir: /app
+    volumes:
+      - ./frontend-pxb:/app
+    command: sh -c "npm install && npm run dev"
+    ports:
+      - "5173:5173"
+    networks:
+      - staff_project
+
+volumes:
+  dbdata:
+
+networks:
+  staff_project:
+    driver: bridge
