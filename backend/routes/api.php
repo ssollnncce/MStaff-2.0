@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserManagerController;
 use App\Http\Controllers\ManageEmployeeController;
-
+use App\Http\Controllers\DepartmentsController;
+use App\Http\Controllers\DictionaryController;
+use App\Http\Controllers\PositionsController;
 //Middlewares:
 use App\Http\Middleware\CheckRole;
 
@@ -45,15 +47,41 @@ Route::middleware(['auth:sanctum', CheckRole::class . ':admin'])->prefix('admin'
         Route::post('/create', [UserManagerController::class, 'createUser']);
         Route::delete("delete/{id}", [UserManagerController::class, 'deleteUser']);
         Route::put('/edit/{id}', [UserManagerController::class, 'editUser']);
-        Route::get('/', [UserManagerController::class, 'allUsers']);
+        Route::get('/list', [UserManagerController::class, 'allUsers']);
     });
     //Employee management routes:
     //Functions:
     //Employee list, Create, Delete, Edit.
     Route::prefix('employee')->group(function () {
-        Route::get('/', [ManageEmployeeController::class, 'allEmployee']);
+        Route::get('/list', [ManageEmployeeController::class, 'allEmployee']);
         Route::post('/create', [ManageEmployeeController::class, 'createEmployee']);
         Route::delete('/delete/{id}', [ManageEmployeeController::class, 'deleteEmployee']);
-        Route::put('/edit', [ManageEmployeeController::class, 'editEmployee']);
+        Route::patch('/edit/{id}', [ManageEmployeeController::class, 'editEmployee']);
     });
+
+    //Departments management routes:
+    Route::prefix('departments')->group(function () {
+        Route::get('/list', [DepartmentsController::class, 'allDepartments']);
+        Route::post('/create', [DepartmentsController::class, 'createDepartment']);
+        Route::delete('/delete/{id}', [DepartmentsController::class, 'deleteDepartment']);
+        Route::put('/edit/{id}', [DepartmentsController::class, 'editDepartment']);
+    });
+    //Positions management routes:
+    Route::prefix('positions')->group(function () {
+        Route::get('/list', [PositionsController::class, 'allPositions']);
+        Route::post('/create', [PositionsController::class, 'createPosition']);
+        Route::delete('/delete/{id}', [PositionsController::class, 'deletePosition']);
+        Route::put('/edit/{id}', [PositionsController::class, 'editPosition']);
+    });
+    //Create, delete and edit dictionary
+    Route::prefix('dictionaries')->group(function () {
+        //Employee statuses
+        Route::get('/employee-statuses', [DictionaryController::class, 'listEmployeeStatuses']);
+        Route::post('/employee-statuses/create', [DictionaryController::class, 'createEmployeeStatus']);
+        Route::delete('/employee-statuses/delete/{id}', [DictionaryController::class, 'deleteEmployeeStatus']);
+        Route::put('/employee-statuses/edit/{id}', [DictionaryController::class, 'editEmployeeStatus']);
+        //Other dictionaries can be added here in the future
+    });
+
+
 });

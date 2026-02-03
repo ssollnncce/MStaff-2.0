@@ -82,7 +82,11 @@ class UserManagerController extends Controller
     }
 
     public function allUsers () {
+        $users = User::all();
 
+        return response()->json([
+            'message' => "Users list:",
+            'users' => $users
+        ]);
     }
-
 }
