@@ -28,6 +28,8 @@ class CreateProjectsRequest extends FormRequest
             'due_date' => 'required|date|after:start_date',
             'priority' => 'required|in:low,medium,high',
             'status' => 'required|in:planning, in_progress,completed,on_hold,declined',
+            'employee_ids' => 'nullable|array',
+            'employee_ids.*' => 'integer|exists:employees,id',
         ];
     }
 
@@ -47,6 +49,9 @@ class CreateProjectsRequest extends FormRequest
             'priority.in' => 'Priority must be one of: low, medium, high',
             'status.required' => 'Status is required',
             'status.in' => 'Status must be one of: planning, in_progress, completed, on_hold, declined',
+            'employee_ids.array' => 'Employee ids must be an array',
+            'employee_ids.*.integer' => 'Employee id must be an integer',
+            'employee_ids.*.exists' => 'Employee id must exist in employees table',
         ];
     }
 }
