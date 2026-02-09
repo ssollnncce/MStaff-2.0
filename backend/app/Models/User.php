@@ -61,6 +61,35 @@ class User extends Authenticatable
         return $this->hasOne(Employee::class);
     }
 
+    /**
+     * Get all projects created by this user (through employee).
+     */
+    public function createdProjects()
+    {
+        return $this->hasManyThrough(
+            Project::class,
+            Employee::class,
+            'user_id',
+            'created_by'
+        );
+    }
+
+    /**
+     * Get all projects this user participates in (through employee).
+     */
+    public function projects()
+    {
+        return $this->hasManyThrough(
+            Project::class,
+            Employee::class,
+            'user_id',
+            'id',
+            'id',
+            'id'
+        )->join('employee_project', 'projects.id', '=', 'employee_project.project_id')
+          ->where('employee_project.employee_id', $this->employee->id ?? null);
+    }
+
     public function full_name(): string
     {
         return trim("{$this->last_name} {$this->first_name} {$this->patronymic}");

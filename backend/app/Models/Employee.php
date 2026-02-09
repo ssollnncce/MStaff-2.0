@@ -74,6 +74,22 @@ class Employee extends Model
         return $this->belongsTo(EmployeeStatus::class, 'status_id');
     }
 
+    /**
+     * Get all projects this employee created.
+     */
+    public function createdProjects()
+    {
+        return $this->hasMany(Project::class, 'created_by');
+    }
+
+    /**
+     * Get all projects this employee participates in.
+     */
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class, 'employee_project', 'employee_id', 'project_id');
+    }
+
     public function getEmployeeNameAttribute()
     {
         return $this->user ? $this->user->full_name() : null;

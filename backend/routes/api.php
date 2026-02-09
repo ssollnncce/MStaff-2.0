@@ -10,6 +10,7 @@ use App\Http\Controllers\ManageEmployeeController;
 use App\Http\Controllers\DepartmentsController;
 use App\Http\Controllers\DictionaryController;
 use App\Http\Controllers\PositionsController;
+use App\Http\Controllers\ProjectsController;
 //Middlewares:
 use App\Http\Middleware\CheckRole;
 
@@ -82,6 +83,20 @@ Route::middleware(['auth:sanctum', CheckRole::class . ':admin'])->prefix('admin'
         Route::put('/employee-statuses/edit/{id}', [DictionaryController::class, 'editEmployeeStatus']);
         //Other dictionaries can be added here in the future
     });
+});
 
+    //Projects management
+Route::prefix('projects')->group(function () {
+        
+    Route::middleware(['auth:sanctum', CheckRole::class . ':admin,manager'])->group(function () {
+        //Create, delete and edit projects
+        Route::post('/create', [ProjectsController::class, 'createProject']);
+        Route::delete('/{id}/delete', [ProjectsController::class, 'deleteProject']);
+        Route::put('/{id}/edit', [ProjectsController::class, 'editProject']);
+    });
 
+    Route::middleware('auth:sanctum')->group(function () {
+        //Get list of projects (for all authorized users)
+        Route::get('/list', [ProjectsController::class, 'listProjects']);
+    });
 });
