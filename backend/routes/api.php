@@ -98,5 +98,6 @@ Route::prefix('projects')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         //Get list of projects (for all authorized users)
         Route::get('/list', [ProjectsController::class, 'listProjects']);
+        Route::get('/{id}', [ProjectsController::class, 'getDetails']);
     });
 });

@@ -10,4 +10,12 @@ class EmployeeProject extends Model
         'employee_id',
         'project_id'
     ];
+
+    public function employee (){
+        return $this->belongsTo(Employee::class);
+    }
+
+    public function project () {
+        return $this->belongsTo(Project::class);
+    }
 }
