@@ -119,4 +119,8 @@ class Employee extends Model
     {
         return $this->status ? $this->status->status_name : null;
     }
+
+    public function assignments() {
+        return $this->hasMany(Assignment::class);
+    }
 }

@@ -47,4 +47,8 @@ class Project extends Model
             'user_id'
         )->distinct();
     }
+
+    public function assignments() {
+        return $this->hasMany(Assignment::class);
+    }
 }

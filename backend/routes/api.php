@@ -11,8 +11,10 @@ use App\Http\Controllers\DepartmentsController;
 use App\Http\Controllers\DictionaryController;
 use App\Http\Controllers\PositionsController;
 use App\Http\Controllers\ProjectsController;
+use App\Http\Controllers\AssignmentsController;
 //Middlewares:
 use App\Http\Middleware\CheckRole;
+use PhpParser\Node\Expr\Assign;
 
 //Authorization routes
 
@@ -99,5 +101,19 @@ Route::prefix('projects')->group(function () {
         //Get list of projects (for all authorized users)
         Route::get('/list', [ProjectsController::class, 'listProjects']);
         Route::get('/{id}', [ProjectsController::class, 'getDetails']);
+    });
+});
+
+Route::prefix('assignments')->group(function () {
+    Route::middleware('auth:sanctum')->group(function(){
+        Route::get('list', [AssignmentsController::class, 'assignmentList']);
+        Route::get('/{id}', [AssignmentsController::class, 'assignmentDetails']);
+    });
+    Route::middleware(['auth:sanctum', CheckRole::class . ':admin,manager'])->group(function () {
+        Route::post('/create', [AssignmentsController::class, 'assignmentCreate']);
+        Route::put('/{id}/edit', [AssignmentsController::class, 'assignmentEdit']);
+    });
+    Route::middleware(['auth:sanctum', CheckRole::class . ':admin'])->group(function () {
+        Route::delete('/{id}/delete', [AssignmentsController::class, 'assignmentDelete']);
     });
 });
