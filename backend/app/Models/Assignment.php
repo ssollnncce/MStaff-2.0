@@ -17,6 +17,11 @@ class Assignment extends Model
         'creator_id',
     ];
 
+    protected $casts = [
+        'start_date' => 'date',
+        'due_date' => 'date',
+    ];
+
     public function project() {
         return $this->belongsTo(Project::class, 'project_id');
     }
@@ -29,4 +34,3 @@ class Assignment extends Model
         return $this->belongsToMany(EmployeeAssignment::class, 'employee_assignments', 'employee_id', 'assignment_id');
     }
 }
-

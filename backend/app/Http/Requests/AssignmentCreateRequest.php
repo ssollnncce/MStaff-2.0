@@ -30,6 +30,7 @@ class AssignmentCreateRequest extends FormRequest
             'start_date' => 'nullable|date',
             'due_date' => 'nullable|date|after_or_equal:start_date',
             'creator_id' => 'nullable|integer|exists:employees,id',
+            'assignee_id' => 'nullable|integer|exists:employees,id',
         ];
     }
 
