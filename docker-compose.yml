@@ -1,0 +1,103 @@
+services:
+# --- Container for MySQL database ---
+  database:
+    image: mysql:8.0
+    container_name: mstaff_database
+    restart: unless-stopped
+    env_file:
+      - ./mysql/.env.docker
+    volumes:
+      - database_data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    networks:
+      - mstaff
+  # --- Container for frontend services Frontend(Node.js) ---
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../Dockerfiles/Dockerfile.node
+    container_name: mstaff_frontend
+    restart: unless-stopped
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - mstaff
+  # --- Container for backend services Backend(Laravel) ---
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ../Dockerfiles/Dockerfile.php
+    container_name: mstaff_backend
+    restart: unless-stopped
+    volumes: 
+      - ./backend:/var/www/backend
+    depends_on:
+      - database
+    networks:
+      - mstaff
+  # --- Container for Nginx ---
+  nginx:
+    image: nginx:alpine
+    container_name: mstaff_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./Dockerfiles/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - mstaff
+  # --- Container for Composer ---
+  composer:
+    image: composer:latest
+    container_name: mstaff_composer
+    restart: unless-stopped
+    volumes:
+      - ./backend:/app
+    working_dir: /app
+    entrypoint: ["composer"]
+    networks: 
+      - mstaff
+    profiles:
+      - tools
+  # --- Container for Artisan ---
+  artisan:
+    build:
+      context: ./backend
+      dockerfile: ../Dockerfiles/Dockerfile.php
+    container_name: mstaff_artisan
+    volumes:
+      - ./backend:/var/www/backend
+    depends_on:
+      - backend
+    entrypoint: ["php", "/var/www/backend/artisan"]
+    networks:
+      - mstaff
+    profiles:
+      - tools
+  # --- Container for Queue Worker ---
+  queue:
+    build:
+      context: ./backend
+      dockerfile: ../Dockerfiles/Dockerfile.php
+    container_name: mstaff_queue
+    restart: unless-stopped
+    command: php artisan queue:work --tries=3
+    volumes:
+      - ./backend:/var/www/backend
+    depends_on:
+      - backend
+    networks:
+      - mstaff
+
+
+volumes:
+  database_data:
+
+networks:
+  mstaff:
+    driver: bridge

@@ -1,3 +1,71 @@
-# IDE files
+# ========================
+# Environment
+# ========================
+.env
+.env.backup
+.env.production
+.env.docker
+backend/.env
+backend/.env.backup
+backend/.env.production
+auth.json
+
+# ========================
+# Dependencies
+# ========================
+node_modules
+backend/vendor
+frontend/node_modules
+
+# ========================
+# Build output
+# ========================
+dist
+dist-ssr
+backend/public/build
+backend/public/hot
+backend/public/storage
+
+# ========================
+# Logs
+# ========================
+*.log
+logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+backend/storage/pail
+
+# ========================
+# Laravel specific
+# ========================
+backend/storage/*.key
+backend/.phpunit.result.cache
+backend/.phpunit.cache
+backend/.phpactor.json
+Homestead.json
+Homestead.yaml
+
+# ========================
+# IDE & Editor
+# ========================
 .idea
-.vscode
+.vscode/*
+!.vscode/extensions.json
+.fleet
+.nova
+.zed
+
+# ========================
+# OS
+# ========================
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.local
