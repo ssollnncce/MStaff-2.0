@@ -17,7 +17,6 @@ use App\Http\Middleware\CheckRole;
 use PhpParser\Node\Expr\Assign;
 
 //Authorization routes
-
 Route::prefix('auth')->group(function () {
 
     //For not authorized users
@@ -89,7 +88,7 @@ Route::middleware(['auth:sanctum', CheckRole::class . ':admin'])->prefix('admin'
 
     //Projects management
 Route::prefix('projects')->group(function () {
-        
+
     Route::middleware(['auth:sanctum', CheckRole::class . ':admin,manager'])->group(function () {
         //Create, delete and edit projects
         Route::post('/create', [ProjectsController::class, 'createProject']);
@@ -115,5 +114,12 @@ Route::prefix('assignments')->group(function () {
     });
     Route::middleware(['auth:sanctum', CheckRole::class . ':admin'])->group(function () {
         Route::delete('/{id}/delete', [AssignmentsController::class, 'assignmentDelete']);
+    });
+});
+
+//Users data routes
+Route::prefix('users')->group(function () {
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/data', [AuthController::class, 'userInfo']);
     });
 });

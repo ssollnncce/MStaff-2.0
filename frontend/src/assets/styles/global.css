@@ -1,0 +1,11 @@
+.paragraph-title{
+    font-size: var(--font-regular);
+    padding: 0;
+    margin: 0;
+}
+.note{
+    font-size: var(--font-tiny);
+    color: var(--color-gray-light);
+    margin: 0;
+    padding: 0;
+}

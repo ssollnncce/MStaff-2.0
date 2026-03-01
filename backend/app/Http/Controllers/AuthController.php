@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -27,6 +28,7 @@ class AuthController extends Controller
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
+
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
@@ -44,13 +46,20 @@ class AuthController extends Controller
         // Reset password logic here
     }
 
-    public function userInfo(Request $request)
-    {
-        // Get user info logic here
-    }
-
     public function logout(Request $request)
     {
         // Logout logic here
+    }
+    public function userInfo() {
+        $user = Auth::user();
+        $employee = $user->employee;
+
+        return response()->json([
+            'message' => 'User information retrieved successfully',
+            'data' => [
+                'user' => $user,
+                'employee' => $employee
+            ]
+        ]);
     }
 }
