@@ -2,10 +2,12 @@
     /*colors*/
     --color-primary: #014baa;
     --color-secondary: #f8f3f0;
+    --color-gray: #808080;
     --color-gray-light: #d3d3d3;
 
     /*fonts*/
     --font-heading: 3.5rem;
+    --font-heading-2: 2rem;
     --font-regular: 1rem;
     --font-tiny: 0.5rem;
 }

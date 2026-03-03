@@ -123,3 +123,4 @@ Route::prefix('users')->group(function () {
         Route::get('/data', [AuthController::class, 'userInfo']);
     });
 });
+

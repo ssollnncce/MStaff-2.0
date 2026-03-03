@@ -4,6 +4,7 @@ import api from '../api/axios.ts'
 interface AuthContextType {
     user: any,
     employee: any,
+    loading: boolean,
     login: (email: string, password: string) => Promise<void>
 }
 
@@ -12,16 +13,20 @@ const AuthContext = createContext<AuthContextType | null>(null)
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState(null)
     const [employee, setEmployee] = useState(null)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const token = localStorage.getItem('token')
         if (token) {
-            api.get('/user/data')
+            api.get('/users/data')
                 .then(response => {
-                    setUser(response.data.user)
-                    setEmployee(response.data.employee)
+                    setUser(response.data.data.user)
+                    setEmployee(response.data.data.employee)
                 })
                 .catch(() => localStorage.removeItem('token'))
+                .finally(() => setLoading(false))
+        } else {
+            setLoading(false)
         }
     }, [])
 
@@ -31,11 +36,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(response.data.user_data)
         
         const employeeData = await api.get('/users/data')
-        setEmployee(employeeData.data.employee)
+        setEmployee(employeeData.data.data.employee)
     }
 
     return (
-        <AuthContext.Provider value={{ user, employee, login }}>
+        <AuthContext.Provider value={{ user, employee, loading, login }}>
             {children}
         </AuthContext.Provider>
     )
