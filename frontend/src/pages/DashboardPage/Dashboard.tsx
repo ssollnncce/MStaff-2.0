@@ -6,6 +6,12 @@ export default function Dashboard() {
     useTitle(`Dashboard - ${auth?.user?.first_name || 'Security Staff Management'}`)
 
     return (
-        <p className='paragraph-title'>Dashboard</p>
+        <div>
+            <h1>Dashboard</h1>
+            <p>Welcome, {auth?.user?.first_name || 'User'}!</p>
+            {Array.from({ length: 100 }, (_, i) => (
+                <p key={i}>This is line {i + 1}</p>
+            ))}
+        </div>
     )
 }

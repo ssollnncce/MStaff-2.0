@@ -3,3 +3,8 @@
     height: 100%;
     display: flex;
 }
+.content{
+    margin-left: 15%;
+    width: 85%;
+    min-height: 100vh;
+}

@@ -7,7 +7,9 @@ export default function MainLayout() {
     return (
         <div className={MainLayoutStyle['layout-container']}>
             <Navigation />
-            <Outlet />
+            <div className={MainLayoutStyle['content']}>
+                <Outlet />
+            </div>
         </div>
     )
 }
