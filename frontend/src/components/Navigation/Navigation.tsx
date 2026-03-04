@@ -2,6 +2,13 @@ import navStyle from './Navigation.module.css'
 import { useAuth } from '../../context/AuthContext'
 import { NavLink, useLocation } from 'react-router-dom'
 
+//icons
+import dashboardIcon from '../../assets/icons/dashboard-icon.svg'
+import projectIcon from '../../assets/icons/folder-icon.svg'
+import profileIcon from '../../assets/icons/profile-icon.svg'
+import settingsIcon from '../../assets/icons/settings-icon.svg'
+import logoutIcon from '../../assets/icons/logout-icon.svg'
+
 function Navigation() {
 
     const auth = useAuth()
@@ -34,19 +41,36 @@ function Navigation() {
                     </div>
                     <nav className={navStyle['menu-nav']}>
                         <ul className={navStyle['menu-list']}>
-                            <li className={`${navStyle['menu-item']} ${location.pathname === '/' ? navStyle['active-link'] : navStyle['inactive-link']}`}><NavLink to="/">Dashboard</NavLink></li>
-                            <li className={`${navStyle['menu-item']} ${location.pathname === '/projects' ? navStyle['active-link'] : navStyle['inactive-link']}`}><NavLink to="/projects">Projects management</NavLink></li>
+                            <li className={`${navStyle['menu-item']} ${location.pathname === '/' ? navStyle['active-link'] : navStyle['inactive-link']}`}>
+                                <img src={dashboardIcon} alt="Navigation icon" />
+                                <NavLink to="/">Dashboard</NavLink>
+                            </li>
+                            <li className={`${navStyle['menu-item']} ${location.pathname === '/projects' ? navStyle['active-link'] : navStyle['inactive-link']}`}>
+                                <img src={projectIcon} alt="Navigation icon" />
+                                <NavLink to="/projects">Projects management</NavLink>
+                            </li>
                         </ul>
                     </nav>
                 </div>
             </div>
             <div className={navStyle['footer']}>
-                <p>SETTINGS</p>
-                <nav>
-                    <ul>
-                        <li>Profile</li>
-                        <li>Settings</li>
-                        <li>Logout</li>
+                <div className={navStyle['menu-label']}>
+                    <p>SETTINGS:</p>
+                </div>
+                <nav className={navStyle['menu-nav']}>
+                    <ul className={navStyle['menu-list']}>
+                        <li className={navStyle['menu-item']}>
+                            <img src={profileIcon} alt="profile-icon" />
+                            <NavLink to="/profile">Profile</NavLink>
+                        </li>
+                        <li className={navStyle['menu-item']}>
+                            <img src={settingsIcon} alt="settings-icon" />
+                            <NavLink to="/settings">Settings</NavLink>
+                        </li>
+                        <li className={navStyle['menu-item']}>
+                            <img src={logoutIcon} alt="logout-icon" />
+                            <NavLink to="/logout">Logout</NavLink>
+                        </li>
                     </ul>
                 </nav>
             </div>

@@ -61,7 +61,6 @@
 }
 .menu-label{
     padding: 0;
-    padding-left: 0.7rem;
 }
 .menu-label p{
     margin: 0;
@@ -72,7 +71,7 @@
     flex-direction: column;
     gap: 0.2rem;
     align-items: center;
-    padding: 0.5rem;
+    padding: 0;
 
 }
 .menu-item{
@@ -80,6 +79,13 @@
     box-sizing: border-box;
     border-radius: 0.5rem;
     width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: white;
+}
+.menu-item:hover {
+    filter: brightness(0.9);
 }
 .menu-item a {
     text-decoration: none;
@@ -89,4 +95,7 @@
     color: white;
     font-weight: 600;
     background-color: var(--color-primary);
+}
+.active-link img {
+    filter: invert(1);
 }

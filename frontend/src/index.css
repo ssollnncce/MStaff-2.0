@@ -2,6 +2,11 @@
     font-family: 'pt-sans';
     src: url('./assets/fonts/Pt_Sans/PtSans-Regular.ttf') format('truetype');
 }
+@font-face {
+    font-family: 'pt-sans';
+    src: url('./assets/fonts/PT_Sans/PTSans-Bold.ttf');
+    font-weight: bold;
+}
 
 body{
     font-family: 'pt-sans', sans-serif;
