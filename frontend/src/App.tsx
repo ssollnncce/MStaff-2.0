@@ -6,6 +6,7 @@ import ProjectManagement from "./pages/ProjectManagement/ProjectManagement.tsx";
 import { AuthProvider } from './context/AuthContext.tsx';
 import ProtectedRoutes from './components/ProtectedRoutes.tsx';
 import GuestRoute from './components/GuestRoute.tsx';
+import Logout from './components/Logout.tsx';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route element={<ProtectedRoutes><MainLayout /></ProtectedRoutes>}>
             <Route path='/' element={<Dashboard />} />
             <Route path='/projects' element={<ProjectManagement />} />
+            <Route path='/logout' element={<Logout />} />
           </Route>
         </Routes>
       </BrowserRouter>

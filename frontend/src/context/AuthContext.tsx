@@ -5,7 +5,8 @@ interface AuthContextType {
     user: any,
     employee: any,
     loading: boolean,
-    login: (email: string, password: string) => Promise<void>
+    login: (email: string, password: string) => Promise<void>,
+    logout: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
@@ -30,6 +31,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
     }, [])
 
+    async function logout() {
+        await api.post('/auth/logout')
+        localStorage.removeItem('token')
+        setUser(null)
+        setEmployee(null)
+    }
+
     async function login(email: string, password: string) {
         const response = await api.post('/auth/login', {email,password})
         localStorage.setItem('token', response.data.access_token)
@@ -40,7 +48,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     return (
-        <AuthContext.Provider value={{ user, employee, loading, login }}>
+        <AuthContext.Provider value={{ user, employee, loading, login, logout }}>
             {children}
         </AuthContext.Provider>
     )

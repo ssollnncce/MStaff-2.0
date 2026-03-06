@@ -59,15 +59,15 @@ function Navigation() {
                 </div>
                 <nav className={navStyle['menu-nav']}>
                     <ul className={navStyle['menu-list']}>
-                        <li className={navStyle['menu-item']}>
+                        <li className={`${navStyle['menu-item']} ${location.pathname === '/profile' ? navStyle['active-link'] : navStyle['inactive-link']}`}>
                             <img src={profileIcon} alt="profile-icon" />
                             <NavLink to="/profile">Profile</NavLink>
                         </li>
-                        <li className={navStyle['menu-item']}>
+                        <li className={`${navStyle['menu-item']} ${location.pathname === '/settings' ? navStyle['active-link'] : navStyle['inactive-link']}`}>
                             <img src={settingsIcon} alt="settings-icon" />
                             <NavLink to="/settings">Settings</NavLink>
                         </li>
-                        <li className={navStyle['menu-item']}>
+                        <li className={`${navStyle['menu-item']} ${location.pathname === '/logout' ? navStyle['active-link'] : navStyle['inactive-link']}`}>
                             <img src={logoutIcon} alt="logout-icon" />
                             <NavLink to="/logout">Logout</NavLink>
                         </li>

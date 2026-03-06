@@ -12,17 +12,22 @@ export default function Login() {
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [error, setError] = useState('')
+    const [error, setError] = useState<string[]>([])
     const [showPassword, setShowPassword] = useState(false)
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
-        setError('')
+        setError([])
         try {
             await auth!.login(email, password)
             navigate('/')
-        } catch {
-            setError('Invalid email or password')
+        } catch (error: any) {
+            const errors = error?.response?.data?.errors
+            if (errors) {
+                setError(Object.values<string[]>(errors).flat())
+            } else {
+                setError(['Login failed. Please check your credentials and try again.'])
+            }
         }
     }
 
@@ -37,6 +42,9 @@ export default function Login() {
                         Sign in to access your dashboard
                     </p>
                 </div>
+                    {error.length > 0 && error.map((msg, i) => (
+                        <p key={i} className={loginStyle['error-message']}>{msg}</p>
+                    ))}
                 <form onSubmit={handleSubmit} className={loginStyle['login__box-form']}>
                     <div className={loginStyle['login__box-form-inputs']}>
                         <label htmlFor="email">Email</label>
